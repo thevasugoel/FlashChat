@@ -1,4 +1,4 @@
-# we_chat
+# Flash Chat
 
 A new Flutter project.
 
