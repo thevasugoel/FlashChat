@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_chat/models/helperFunction.dart';
 import 'package:we_chat/screens/chat_room.dart';
 import 'package:we_chat/screens/login_screen.dart';
 import 'package:we_chat/services/auth.dart';
@@ -48,7 +49,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController password = TextEditingController();
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String deviceToken;
-
   bool isLoading = false;
   void signUp() {
     setState(() {
@@ -66,8 +66,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         "email": email.text,
         "device_token": deviceToken,
       };
+      HelperFunctions.saveUserName(name.text);
+      HelperFunctions.saveUserName(email.text);
 
       DatabaseMethods().uploadUserInfo(userInfoMap);
+      HelperFunctions.saveUserLoggedIn(true);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => ChatRoom()));
     });

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:we_chat/models/helperFunction.dart';
 import 'package:we_chat/screens/chat_room.dart';
 import 'package:we_chat/screens/registration_screen.dart';
 import 'package:we_chat/services/auth.dart';
+import 'package:we_chat/services/database.dart';
 import 'package:we_chat/widgets/login_lines.dart';
 import 'dart:async';
 
@@ -52,9 +54,18 @@ class _LoginScreenState extends State<LoginScreen> {
       print(password.text);
     });
 
-    AuthMethods().signInWithEmail(email.text, password.text).then((value) =>
+    HelperFunctions.saveUserEmail(email.text);
+    DatabaseMethods().searchUserEmail(email.text).then((value) {
+      HelperFunctions.saveUserName(value.documents[0].data()["name"]);
+    });
+
+    AuthMethods().signInWithEmail(email.text, password.text).then((value) {
+      if (value != null) {
+        HelperFunctions.saveUserLoggedIn(true);
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ChatRoom())));
+            context, MaterialPageRoute(builder: (context) => ChatRoom()));
+      }
+    });
   }
 
   @override

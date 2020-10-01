@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:we_chat/models/constants.dart';
+import 'package:we_chat/models/helperFunction.dart';
 import 'package:we_chat/screens/login_screen.dart';
 import 'package:we_chat/screens/search_user.dart';
 import 'package:we_chat/screens/splash_screen.dart';
 import 'package:we_chat/services/auth.dart';
 
-class ChatRoom extends StatelessWidget {
+class ChatRoom extends StatefulWidget {
+  @override
+  _ChatRoomState createState() => _ChatRoomState();
+}
+
+class _ChatRoomState extends State<ChatRoom> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    Constants.myName = await HelperFunctions.getUserName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:we_chat/models/helperFunction.dart';
 import 'package:we_chat/models/user.dart';
 
 class AuthMethods {
@@ -41,6 +42,7 @@ class AuthMethods {
 
   Future signOut() async {
     try {
+      await HelperFunctions.saveUserLoggedIn(false);
       return await _auth.signOut();
     } catch (e) {
       print(e);
